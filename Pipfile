@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+ipython = "*"
+
+[packages]
+certifi = "*"
+chardet = "3.0.4"
+dill = "0.2.9"
+idna = "*"
+torch = "1.6.0"
+torchtext = "0.7.0"
+torchvision = "0.7.0"
+tqdm = "*"
+typing-extensions = "*"
+urllib3 = "1.25.10"
+multiprocess = "0.70.6.1"
+allennlp = "1.1.0"
+numpy = "1.19.2"
+wrapt = "1.12.1"
+imgaug = "0.2.6"
+datascience = "0.10.6"
+folium = "0.2.1"
+google-colab = "1.0.0"
+requests = "2.23.0"
+dropbox = "*"
+
+[requires]
+python_version = "3.7"
