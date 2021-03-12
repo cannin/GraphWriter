@@ -87,7 +87,7 @@ def evaluate(m,ds,args):
 def main(args):
   if not os.path.isdir(args.save):
     os.mkdir(args.save)
-  elif os.path.isdir(args.save) and args.overwrite_save:
+  elif os.path.isdir(args.save) and args.overwritesave:
     try:
       shutil.rmtree(dir_path)
     except OSError as e:
@@ -134,7 +134,7 @@ def main(args):
     file = args.save+"/"+str(e)+".vloss-"+str(vloss)[:8]+".lr-"+str(o.param_groups[0]['lr'])
     torch.save(m.state_dict(), file)
 
-    if args.save_dropbox:
+    if args.savedropbox:
       db_access_token = os.getenv("DB_TOKEN")
       db_location = os.getenv("DB_FOLDER")
       upload_file(file, db_location, db_access_token)
