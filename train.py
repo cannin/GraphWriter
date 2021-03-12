@@ -9,6 +9,15 @@ from lastDataset import dataset
 from pargs import pargs,dynArgs
 from models.newmodel import model
 
+import shutil
+import dropbox
+
+def upload_file(file_from, file_to, access_token):
+    dbx = dropbox.Dropbox(access_token)
+    f = open(file_from, 'rb')
+    dbx.files_upload(f.read(), file_to, mode=dropbox.files.WriteMode.overwrite)
+
+
 def update_lr(o,args,epoch):
   if epoch%args.lrstep == 0:
     o.param_groups[0]['lr'] = args.lrhigh
@@ -76,11 +85,18 @@ def evaluate(m,ds,args):
   return loss
 
 def main(args):
-  try:
-    os.stat(args.save)
-    input("Save File Exists, OverWrite? <CTL-C> for no")
-  except:
+  if not os.path.isdir(args.save):
     os.mkdir(args.save)
+  elif os.path.isdir(args.save) and args.overwrite_save:
+    try:
+      shutil.rmtree(dir_path)
+    except OSError as e:
+      print("Error: %s : %s" % (dir_path, e.strerror))
+    os.mkdir(args.save)
+  else: 
+    print('Error: Existing save file; not overwritten')
+    sys.exit(1)
+
   ds = dataset(args)
   args = dynArgs(args,ds)
   m = model(args)
@@ -115,7 +131,14 @@ def main(args):
     if args.lrwarm:
       update_lr(o,args,e)
     print("Saving model")
-    torch.save(m.state_dict(),args.save+"/"+str(e)+".vloss-"+str(vloss)[:8]+".lr-"+str(o.param_groups[0]['lr']))
+    file = args.save+"/"+str(e)+".vloss-"+str(vloss)[:8]+".lr-"+str(o.param_groups[0]['lr'])
+    torch.save(m.state_dict(), file)
+
+    if args.save_dropbox:
+      db_access_token = os.getenv("DB_TOKEN")
+      db_location = os.getenv("DB_FOLDER")
+      upload_file(file, db_location, db_access_token)
+
     if vloss > lastloss:
       if args.lrdecay:
         print("decay lr")

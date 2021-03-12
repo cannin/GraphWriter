@@ -69,6 +69,8 @@ def pargs():
   #data
   parser.add_argument("-nosave",action='store_false',help='dont save')
   parser.add_argument("-save",required=True,help="where to save model")
+  parser.add_argument("-overwrite-save",required=True,action="store_true",help="overwrite any existing save model")
+  parser.add_argument("-save-dropbox",help="save location to dropbox; environent variables DB_TOKEN and DB_FOLDER must be set")
   parser.add_argument("-outunk",default=5,type=int,help="unk @ for targets")
   parser.add_argument("-entunk",default=5,type=int,help="unk @ for entity vocabulary")
   parser.add_argument("-datadir",default="data/")
