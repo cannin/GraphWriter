@@ -131,13 +131,14 @@ def main(args):
     if args.lrwarm:
       update_lr(o,args,e)
     print("Saving model")
-    file = args.save+"/"+str(e)+".vloss-"+str(vloss)[:8]+".lr-"+str(o.param_groups[0]['lr'])
-    torch.save(m.state_dict(), file)
+    output_file = str(e)+".vloss-"+str(vloss)[:8]+".lr-"+str(o.param_groups[0]['lr'])
+    output_path = args.save+"/"+output_file
+    torch.save(m.state_dict(), output_path)
 
     if args.savedropbox:
       db_access_token = os.getenv("DB_TOKEN")
       db_location = os.getenv("DB_FOLDER")
-      upload_file(file, db_location, db_access_token)
+      upload_file(output_file, db_location, db_access_token)
 
     if vloss > lastloss:
       if args.lrdecay:
