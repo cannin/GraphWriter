@@ -120,7 +120,11 @@ def main(args):
       f.write("\n".join(sys.argv[1:]))
     starte=0
   o = torch.optim.SGD(m.parameters(),lr=args.lr, momentum=0.9)
-
+  
+  if torch.cuda.is_available(): 
+    device_id = torch.cuda.current_device()
+    print("GPU: " + torch.cuda.get_device_name(device_id))
+ 
   # early stopping based on Val Loss
   lastloss = 1000000
   
