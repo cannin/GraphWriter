@@ -138,6 +138,7 @@ def main(args):
     if args.savedropbox:
       db_access_token = os.getenv("DB_TOKEN")
       db_location = os.getenv("DB_FOLDER") + output_file
+      print("MSG: Output Path: " + output_path + " DB Path: " + db_location)
       upload_file(output_path, db_location, db_access_token)
 
     if vloss > lastloss:
