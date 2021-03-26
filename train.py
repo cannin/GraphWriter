@@ -102,9 +102,10 @@ def main(args):
   m = model(args)
   print(args.device)
   m = m.to(args.device)
+
   ckpt = args.ckpt
   if args.ckptenv:
-    ckpt = args.ckptenv
+    ckpt = os.getenv('CKPT')
   if ckpt:
     '''
     with open(args.save+"/commandLineArgs.txt") as f:
