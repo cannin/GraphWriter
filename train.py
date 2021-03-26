@@ -102,7 +102,10 @@ def main(args):
   m = model(args)
   print(args.device)
   m = m.to(args.device)
-  if args.ckpt:
+  ckpt = args.ckpt
+  if args.ckptenv:
+    ckpt = args.ckptenv
+  if ckpt:
     '''
     with open(args.save+"/commandLineArgs.txt") as f:
       clargs = f.read().strip().split("\n") 
@@ -110,10 +113,10 @@ def main(args):
       assert(len(argdif)==2); 
       assert([x for x in argdif if x[0]=='-']==['-ckpt'])
     '''
-    cpt = torch.load(args.ckpt)
+    cpt = torch.load(ckpt)
     m.load_state_dict(cpt)
-    starte = int(args.ckpt.split("/")[-1].split(".")[0])+1
-    args.lr = float(args.ckpt.split("-")[-1])
+    starte = int(ckpt.split("/")[-1].split(".")[0])+1
+    args.lr = float(ckpt.split("-")[-1])
     print('ckpt restored')
   else:
     with open(args.save+"/commandLineArgs.txt",'w') as f:
@@ -136,7 +139,7 @@ def main(args):
       update_lr(o,args,e)
     print("Saving model")
     output_file = str(e)+".vloss-" + str(vloss)[:8]+".lr-" + str(o.param_groups[0]['lr'])
-    output_path = args.save+"/" + output_file
+    output_path = args.save + "/" + output_file
     torch.save(m.state_dict(), output_path)
 
     if args.savedropbox:

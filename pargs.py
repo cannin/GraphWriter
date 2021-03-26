@@ -70,7 +70,7 @@ def pargs():
   parser.add_argument("-nosave",action='store_false',help='dont save')
   parser.add_argument("-save",required=True,help="where to save model")
   parser.add_argument("-overwritesave",action="store_true",help="overwrite any existing save model")
-  parser.add_argument("-savedropbox",action="store_true",help="save to dropbox; environent variables DB_TOKEN and DB_FOLDER must be set")
+  parser.add_argument("-savedropbox",action="store_true",help="save to dropbox; environment variables DB_TOKEN and DB_FOLDER must be set")
   parser.add_argument("-outunk",default=5,type=int,help="unk @ for targets")
   parser.add_argument("-entunk",default=5,type=int,help="unk @ for entity vocabulary")
   parser.add_argument("-datadir",default="data/")
@@ -94,6 +94,7 @@ def pargs():
   parser.add_argument("-sparse",action='store_true',help="sparse graphs (NOT CURRENTLY IMPLEMENTED)")
   parser.add_argument("-plan",action='store_true',help="plan and write (NOT IMPLEMENTED)")
   parser.add_argument("-ckpt",default=None,type=str,help='load checkpoint')
+  parser.add_argument("-ckptenv",action='store_true',help='access checkpoint from CKPT environment variable')
   parser.add_argument("-plweight",default=0.2,type=float,help="plan weight (NOT IMPLEMENTED)")
   parser.add_argument("-entdetach",action='store_true',help='dont backprop into entity embeddings')
 
